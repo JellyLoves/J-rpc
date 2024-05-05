@@ -1,5 +1,6 @@
 package com.jelly.jrpc.config;
 
+import com.jelly.jrpc.serializer.SerializerKeys;
 import lombok.Data;
 
 @Data
@@ -30,4 +31,8 @@ public class RpcConfig {
      */
     private boolean mock = false;
 
+    /**
+     * 序列化器
+     */
+    private String serializer = SerializerKeys.JDK;
 }

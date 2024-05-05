@@ -1,0 +1,2 @@
+json=com.jelly.jrpc.serializer.JsonSerializer
+kryo=com.jelly.jrpc.serializer.KryoSerializer

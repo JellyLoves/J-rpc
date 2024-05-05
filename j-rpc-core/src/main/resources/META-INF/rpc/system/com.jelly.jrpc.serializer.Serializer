@@ -1,0 +1,2 @@
+jdk=com.jelly.jrpc.serializer.JdkSerializer
+hessian=com.jelly.jrpc.serializer.HessianSerializer
