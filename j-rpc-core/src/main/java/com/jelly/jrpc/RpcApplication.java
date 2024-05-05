@@ -1,7 +1,10 @@
 package com.jelly.jrpc;
 
+import com.jelly.jrpc.config.RegistryConfig;
 import com.jelly.jrpc.config.RpcConfig;
 import com.jelly.jrpc.constant.RpcConstant;
+import com.jelly.jrpc.registry.Registry;
+import com.jelly.jrpc.registry.RegistryFactory;
 import com.jelly.jrpc.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +25,11 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig) {
         rpcConfig = newRpcConfig;
         log.info("rpc init, config = {}", newRpcConfig.toString());
+        // 注册中心初始化
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("registry init, config = {}", registryConfig);
     }
 
     /**
