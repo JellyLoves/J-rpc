@@ -33,12 +33,23 @@ public interface Registry {
     void unRegister(ServiceMetaInfo serviceMetaInfo);
 
     /**
+     * 心跳检测（服务端）
+     */
+    void heartBeat();
+
+    /**
      * 服务发现（获取某服务的所有节点，消费端）
      *
      * @param serviceKey
      * @return
      */
     List<ServiceMetaInfo> serviceDiscovery(String serviceKey);
+
+    /**
+     * 监听（消费端）
+     * @param serviceNodeKey
+     */
+    void watch(String serviceNodeKey);
 
     /**
      * 服务销毁

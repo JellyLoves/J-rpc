@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.jelly.jrpc.RpcApplication;
+import com.jelly.jrpc.config.RpcConfig;
 import com.jelly.jrpc.constant.RpcConstant;
 import com.jelly.jrpc.model.RpcRequest;
 import com.jelly.jrpc.model.RpcResponse;
@@ -26,7 +27,8 @@ public class ServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 指定序列化器
-        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
+        RpcConfig rpcConfig = RpcApplication.getRpcConfig();
+        final Serializer serializer = SerializerFactory.getInstance(rpcConfig.getSerializer());
 
         // 构造请求
         String serviceName = method.getDeclaringClass().getName();
@@ -41,7 +43,7 @@ public class ServiceProxy implements InvocationHandler {
             byte[] bodyBytes = serializer.serialize(rpcRequest);
             // 发送请求
             // todo 注意，这里地址被硬编码了（需要使用注册中心和服务发现机制解决）
-            Registry registry = RegistryFactory.getInstance(RpcApplication.getRpcConfig().getRegistryConfig().getRegistry());
+            Registry registry = RegistryFactory.getInstance(rpcConfig.getRegistryConfig().getRegistry());
             ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
             serviceMetaInfo.setServiceName(serviceName);
             serviceMetaInfo.setServiceVersion(RpcConstant.DEFAULT_SERVICE_VERSION);

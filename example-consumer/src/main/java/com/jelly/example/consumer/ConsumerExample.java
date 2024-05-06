@@ -17,11 +17,28 @@ public class ConsumerExample {
         // 调用
         User newUser = userService.getUser(user);
         if (newUser != null) {
-            System.out.println(newUser.getName());
+            System.out.println("user1:"+newUser.getName());
         } else {
             System.out.println("user == null");
         }
-        long number = userService.getNumber();
-        System.out.println(number);
+        // 调用
+        newUser = userService.getUser(user);
+        if (newUser != null) {
+            System.out.println("user2:"+newUser.getName());
+        } else {
+            System.out.println("user == null");
+        }// 调用
+        newUser = userService.getUser(user);
+        if (newUser != null) {
+            System.out.println("user3:"+newUser.getName());
+        } else {
+            System.out.println("user == null");
+        }
+        // long number = userService.getNumber();
+        // System.out.println(number);
+    }
+
+    public static void temp(UserService userService, User user) {
+
     }
 }

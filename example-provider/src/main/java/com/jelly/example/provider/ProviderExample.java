@@ -32,7 +32,9 @@ public class ProviderExample {
         serviceMetaInfo.setServiceName(serviceName);
         serviceMetaInfo.setServiceHost(rpcConfig.getServerHost());
         serviceMetaInfo.setServicePort(rpcConfig.getServerPort());
+        serviceMetaInfo.setServiceVersion(rpcConfig.getVersion());
         try {
+            System.out.println("服务端注册："+serviceMetaInfo.toString());
             registry.register(serviceMetaInfo);
         } catch (Exception e) {
             throw new RuntimeException(e);
