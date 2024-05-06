@@ -31,7 +31,7 @@ public class ServiceMetaInfo {
     /**
      * 服务 PORT
      */
-    private String servicePort;
+    private int servicePort;
 
     /**
      * 获取服务键名
@@ -48,7 +48,7 @@ public class ServiceMetaInfo {
      * @return
      */
     public String getServiceNodeKey() {
-        return String.format("%s/%s", getServiceKey(), serviceAddress);
+        return String.format("%s/%s", getServiceKey(), getServiceAddress());
     }
 
     /**
@@ -57,7 +57,7 @@ public class ServiceMetaInfo {
      * @return
      */
     public String getServiceAddress() {
-        if (!StrUtil.contains(serviceHost, "http")) {
+        if (StrUtil.contains(serviceHost, "http")) {
             return String.format("http://%s:%s", serviceHost, servicePort);
         }
         return String.format("%s:%s", serviceHost, servicePort);

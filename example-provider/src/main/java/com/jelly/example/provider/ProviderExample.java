@@ -2,7 +2,12 @@ package com.jelly.example.provider;
 
 import com.jelly.example.service.UserService;
 import com.jelly.jrpc.RpcApplication;
+import com.jelly.jrpc.config.RegistryConfig;
+import com.jelly.jrpc.config.RpcConfig;
+import com.jelly.jrpc.model.ServiceMetaInfo;
 import com.jelly.jrpc.registry.LocalRegistry;
+import com.jelly.jrpc.registry.Registry;
+import com.jelly.jrpc.registry.RegistryFactory;
 import com.jelly.jrpc.server.HttpServer;
 import com.jelly.jrpc.server.VertxHttpServer;
 
@@ -16,10 +21,30 @@ public class ProviderExample {
         RpcApplication.init();
 
         // 注册服务
-        LocalRegistry.register(UserService.class.getName(), UserServiceImpl.class);
+        String serviceName = UserService.class.getName();
+        LocalRegistry.register(serviceName, UserServiceImpl.class);
+
+        // 注册服务到注册中心
+        RpcConfig rpcConfig = RpcApplication.getRpcConfig();
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
+        serviceMetaInfo.setServiceName(serviceName);
+        serviceMetaInfo.setServiceHost(rpcConfig.getServerHost());
+        serviceMetaInfo.setServicePort(rpcConfig.getServerPort());
+        try {
+            registry.register(serviceMetaInfo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         // 启动WEB服务
         HttpServer httpServer = new VertxHttpServer();
         httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
     }
 }
+/**
+ * {"serviceName":"com.jelly.example.service.UserService",
+ * "serviceVersion":"1.0","serviceAddress":"null:0",
+ * "serviceGroup":"default","servicePort":0}
+ */
